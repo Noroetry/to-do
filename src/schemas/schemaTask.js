@@ -13,7 +13,11 @@ const taskSchema = z.object({
 function validateTask(task){
     return taskSchema.safeParse(task);
 }
+function validateTaskPartial(task){
+    return taskSchema.partial().safeParse(task);
+}
 
 module.exports = {
-    validateTask
+    validateTask,
+    validateTaskPartial
 }

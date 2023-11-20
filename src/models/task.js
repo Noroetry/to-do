@@ -25,7 +25,7 @@ export class TaskModel {
     return newTask;
     }
 
-    static update({id, input}){
+    static async update({id, input}){
         const idTask = tasks.findIndex(t => t.id === id);
         if (id < 0 ) return { error: "Object Not Found" };
         const taskUpdated = {
@@ -33,6 +33,11 @@ export class TaskModel {
             ...input
         }
         tasks[idTask] = taskUpdated;
-    return taskUpdated;
+    return tasks[idTask];
+    }
+
+    static async delete({ id }){
+        const idTask = tasks.findIndex(t => t.id === id);
+        tasks.splice(idTask, 1);
     }
 }

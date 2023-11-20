@@ -3,6 +3,7 @@
         "id": "abcd",
         "name": "Tarea 1",
         "description": "Ensalada de Pasta",
+        "genre": "Alimentación",
         "date": "20/11/2023",
         "hour": "13:00"
     },
@@ -10,6 +11,7 @@
         "id": "abcsagfsaasd",
         "name": "Tarea 2",
         "description": "Ensalada de Atún",
+        "genre": "Alimentación",
         "date": "28/11/2023",
         "hour": "12:00"
     },
@@ -17,6 +19,7 @@
         "id": "absagasgsacd",
         "name": "Dormir",
         "description": "Empanada de Pasta",
+        "genre": "Cocina",
         "date": "18/11/2023",
         "hour": "3:00"
     },
@@ -24,6 +27,7 @@
         "id": "hfdjhfgkghf",
         "name": "Dormir",
         "description": "mermelada de Pasta",
+        "genre": "Espiritual",
         "date": "11/11/2023",
         "hour": "22:00"
     }

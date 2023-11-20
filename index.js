@@ -1,13 +1,23 @@
-const express = require('express');
-const cors = require('cors');
-const crypto = require('node:crypto');
-const { validateTask, validateTaskPartial } = require('./src/schemas/schemaTask');
+import express, { json } from 'express';
+import cors from 'cors';
+import { randomUUID } from 'node:crypto';
+import { validateTask, validateTaskPartial } from './src/schemas/schemaTask.js';
+import { readJSON } from './src/utils/require.js';
+const tasks = readJSON('./../resources/tasks.json');
+/*
+import fs from 'node:fs';
+const tasks = JSON.parse(fs.readFileSync('./src/tasks.json', 'utf-8'));
+*/
+//import tasks from './src/tasks.json' assert {type: 'json'};
+
 const app = express();
 
 app.disable('x-powered-by');
 
-app.use(express.json());
-//app.use(cors());
+
+const PORT = process.env.PORT ?? 3000;
+
+app.use(json());
 app.use(cors({
     origin: (origin, callback) => {
         const ACCEPTED_ORIGINS = [
@@ -25,10 +35,6 @@ app.use(cors({
         return callback(new Error('Not Allowed Origin Cors...'));
     }
 }));
-PORT = process.argv[2] ?? 3000;
-
-const { tasks } = require('./src/tasks');
-
 
 app.use((req, res, next) => {
     console.log('Control de seguridad (MW) ...');
@@ -40,17 +46,13 @@ app.get('/', (req, res) => {
     return res.status(200).send('<h1>Root page</h1>');
 })
 
-app.get('/tasks', (req, res) => {/*
-    const origin = req.header('origin');
-    if (ACCEPTED_ORIGINS.includes(origin) || !origin){
-        res.header('Access-Control-Allow-Origin', origin);
-    }
-    */
+app.get('/tasks', (req, res) => {
+
     return res.json(tasks);
 });
 
 app.post('/tasks', (req, res) => {
-    const id = crypto.randomUUID();
+    const id = randomUUID();
     const result = validateTask(req.body);
     if (!result.success){
         return res.status(400).json(JSON.parse(result.error.message));

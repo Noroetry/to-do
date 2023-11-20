@@ -1,4 +1,4 @@
-const z = require('zod');
+import z from 'zod';
 
 const taskSchema = z.object({
     name: z.string({
@@ -10,14 +10,9 @@ const taskSchema = z.object({
     hour: z.string()
 });
 
-function validateTask(task){
+export function validateTask(task){
     return taskSchema.safeParse(task);
 }
-function validateTaskPartial(task){
+export function validateTaskPartial(task){
     return taskSchema.partial().safeParse(task);
-}
-
-module.exports = {
-    validateTask,
-    validateTaskPartial
 }

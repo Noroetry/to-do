@@ -1,19 +1,26 @@
 import { Router } from "express";
-export const moviesRouter = Router();
 import { TaskController } from "../controllers/tasks.js";
 
-moviesRouter.get('/', TaskController.getAll);
+export const createMovieRouter = ({ taskModel }) => {
+    const moviesRouter = Router();
 
-moviesRouter.get('/:id', TaskController.getById);
+    const taskController = new TaskController({ taskModel })
 
-moviesRouter.post('/', TaskController.create);
+    moviesRouter.get('/', taskController.getAll);
 
-moviesRouter.put('/:id', TaskController.update);
+    moviesRouter.get('/:id', taskController.getById);
 
-moviesRouter.patch('/:id', TaskController.updatePartial);
+    moviesRouter.post('/', taskController.create);
 
-moviesRouter.delete('/:id', TaskController.delete);
+    moviesRouter.put('/:id', taskController.update);
 
-moviesRouter.use((req, res) => {
-    return res.status(404).send('<h1>404 - Page Not Found</h1>');
-});
+    moviesRouter.patch('/:id', taskController.updatePartial);
+
+    moviesRouter.delete('/:id', taskController.delete);
+
+    moviesRouter.use((req, res) => {
+        return res.status(404).send('<h1>404 - Page Not Found</h1>');
+    });
+
+    return moviesRouter;
+}

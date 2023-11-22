@@ -1,4 +1,4 @@
-import { readJSON } from '../utils/require.js';
+import { readJSON } from '../../utils/require.js';
 import { randomUUID } from 'node:crypto';
 const tasks = readJSON('../resources/tasks.json');
 

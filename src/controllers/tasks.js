@@ -1,31 +1,34 @@
-import { TaskModel } from "../models/task.js";
 import { validateTask, validateTaskPartial } from '../schemas/schemaTask.js';
 
 export class TaskController {
-    static async getAll(req, res){
+    constructor ({ taskModel }){
+        this.taskModel = taskModel;
+    }
+
+    getAll = async (req, res) => {
         const { genre } = req.query;
-        const tasks = await TaskModel.getAll({ genre });
+        const tasks = await this.taskModel.getAll({ genre });
         return res.json(tasks);
     }
 
-    static async getById(req, res){
+    getById = async (req, res) => {
         const { id } = req.params;
-        const task = await TaskModel.getById({ id });
+        const task = await this.taskModel.getById({ id });
         return res.json(task);
     }
 
-    static async create(req, res){
+    create = async (req, res) => {
         const result = validateTask(req.body);
         if (!result.success){
             return res.status(400).json(JSON.parse(result.error.message));
         }
-        const newTask = await TaskModel.create(result.data);
+        const newTask = await this.taskModel.create(result.data);
         return res.json(newTask);
     }
 
-    static async update(req, res){
+    update = async (req, res) =>{
         const { id } = req.params;
-        const exists = await TaskModel.getById({id});
+        const exists = await this.taskModel.getById({id});
         if (!exists) {
             return res.status(404).json({error: "Object Not Found"});
         }
@@ -33,14 +36,14 @@ export class TaskController {
         if (!result.success) {
             return res.status(202).json(JSON.parse(result.error.message));
         }
-        const taskUpdated = TaskModel.update({id: id, input: result.data});
+        const taskUpdated = this.taskModel.update({id: id, input: result.data});
 
         return res.json(taskUpdated);
     }
 
-    static async updatePartial(req, res){
+    updatePartial = async (req, res) => {
         const { id } = req.params;
-        const exists = await TaskModel.getById({id});
+        const exists = await this.taskModel.getById({id});
         if (!exists) {
             return res.status(404).json({error: "Object Not Found"});
         }
@@ -48,14 +51,14 @@ export class TaskController {
         if (!result.success) {
             return res.status(202).json(JSON.parse(result.error.message));
         }
-        const taskUpdated = TaskModel.update({id: id, input: result.data});
+        const taskUpdated = this.taskModel.update({id: id, input: result.data});
 
         return res.json(taskUpdated);
     }
 
-    static async delete(req, res){
+    delete = async (req, res) => {
         const { id } = req.params;
-        const exists = await TaskModel.getById({id});
+        const exists = await this.taskModel.getById({id});
         if (!exists) {
             return res.status(404).json({error: "Object Not Found"});
         }
